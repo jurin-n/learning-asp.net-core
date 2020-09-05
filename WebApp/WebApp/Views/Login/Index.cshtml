@@ -1,0 +1,32 @@
+﻿@model WebApp.Models.User
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_BlankLayout.cshtml";
+}
+
+<div class="container h-100">
+    <div class="row h-100">
+        <div class="col my-auto">
+            <div class="card mx-auto" style="width: 20rem;height: 28rem;">
+                <div class="card-body">
+                    <h3 class="text-center pt-5">ログイン</h3>
+                    <form autocomplete="off" method="post">
+                        <div class="form-group">
+                            <label for="userId">ユーザID</label>
+                            <input type="text" class="form-control @(Model.isValid?"":"border-danger")"
+                                   name="UserId" value="@(Model.UserId)" />
+                            @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">パスワード</label>
+                            <input type="password" class="form-control @(Model.isValid?"":"border-danger")" name="Password" value="" />
+                        </div>
+                        <input type="submit" value="ログイン" class="btn btn-primary" />
+                        <p class="text-danger @(Model.isValid?" invisible":"")">ユーザIDまたはパスワードが正しくありません。</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
