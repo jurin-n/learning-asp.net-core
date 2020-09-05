@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WebApp.Models;
+using WebApp.Services.Authorization;
 
 namespace WebApp.Controllers
 {
@@ -18,6 +15,7 @@ namespace WebApp.Controllers
             _logger = logger;
         }
 
+        [EditAuthorizeAttribute]
         public IActionResult Index()
         {
             return View();
