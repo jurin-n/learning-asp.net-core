@@ -1,0 +1,98 @@
+﻿@model WebApp.Models.Menu
+
+@{
+    ViewBag.Title = "メニュー";
+}
+
+<!-- Main Content -->
+<div class="container mb-auto">
+    <div class="card" style="border: none;">
+        <div class="card-body">
+            <form enctype="multipart/form-data" asp-controller="Menu" asp-action="Edit" method="post">
+                <div class="form-group">
+                    <p class="h4">ID</p>
+                    <input type="text" class="form-control" name="MenuId" placeholder="IDを入力してください。" value="@(Model.MenuId)" />
+                </div>
+                <div class="form-group">
+                    <p class="h4">説明</p>
+                    <textarea name="MenuDescription" rows="3" class="form-control">@(Model.Description)</textarea>
+                </div>
+                <div class="form-group">
+                    <p class="h4">単位</p>
+                    <select class="form-control" name="MenuUnit">
+                        <option>回</option>
+                        <option>分</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <p class="h4">音声ファイル</p>
+                    <div class="my-1">
+                        <div class="item-columns-header border-bottom border-light-2">
+                            <div class="row my-1">
+                                <div class="col-8 col-lg-6">
+                                    音声ファイル
+                                </div>
+                                <div class="col-4 col-lg-">
+                                    説明
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-columns-body mb-3">
+                            <div class="row my-1">
+                                <div class="col-8 col-lg-6">
+                                    <div class="custom-file">
+                                        <input name="formFile" type="file" class="custom-file-input" id="inputGroupFile01">
+                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-lg-6">
+                                    <textarea name="AudioFileDescription" rows="3" class="form-control form-control-sm"></textarea>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-8 col-lg-6">
+                                    <div class="custom-file">
+                                        <input name="formFile" type="file" class="custom-file-input" id="inputGroupFile02">
+                                        <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-lg-6">
+                                    <textarea name="AudioFileDescription" rows="3" class="form-control form-control-sm"></textarea>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-8 col-lg-6">
+                                    <div class="custom-file">
+                                        <input name="formFile" type="file" class="custom-file-input" id="inputGroupFile03">
+                                        <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-lg-6">
+                                    <textarea name="AudioFileDescription" rows="3" class="form-control form-control-sm"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="メニュー登録" class="btn btn-primary btn-lg" name="confirm" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#inputGroupFile01').on('change', function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    })
+
+    $('#inputGroupFile02').on('change', function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    })
+
+    $('#inputGroupFile03').on('change', function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    })
+</script>
