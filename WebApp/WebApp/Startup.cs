@@ -13,12 +13,12 @@ namespace WebApp
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -27,6 +27,14 @@ namespace WebApp
 
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(1);
+            });
+
+            services.AddDistributedSqlServerCache(options =>
+            {
+                options.ConnectionString =
+                    Configuration.GetConnectionString("MainDatabaseWithEncryptedPassword");
+                options.SchemaName = "dbo";
+                options.TableName = "AppCache";
             });
         }
 

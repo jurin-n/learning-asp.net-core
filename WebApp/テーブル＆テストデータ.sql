@@ -20,3 +20,11 @@ USE dev2
 GO
 --データ登録
 INSERT INTO Users (UserID,Name,Password,CreatedOn) Values('test-user','テストユーザ','test-password','2020-07-24');
+
+
+/*
+セッション用
+*/
+dotnet tool install --global dotnet-sql-cache
+dotnet sql-cache create "Data Source=localhost;Initial Catalog=dev2;Integrated Security=True;" dbo AppCache
+
