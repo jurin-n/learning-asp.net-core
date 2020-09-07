@@ -2,21 +2,23 @@
 using System;
 using System.Data.SqlClient;
 using WebApp.Common;
+using WebApp.Models;
 
 namespace WebApp.Services
 {
     public class Authentication
     {
-        private IConfiguration Configuration;
+        private AppConfig appConfig;
 
-        public Authentication(IConfiguration configuration)
+        public Authentication(AppConfig appConfig)
         {
-            Configuration = configuration;
+            this.appConfig = appConfig;
         }
 
         public int IdAndPasswordSignIn(String UserId, String Password)
         {
-            using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString(this.Configuration)))
+            //using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString(this.Configuration)))
+            using (SqlConnection conn = new SqlConnection(appConfig.ConnectionString))
             {
                 String sql = "SELECT COUNT(*) FROM Users WHERE UserID=@UserId AND Password=@Password";
                 using (SqlCommand command = new SqlCommand(sql))

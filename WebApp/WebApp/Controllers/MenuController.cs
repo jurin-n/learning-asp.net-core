@@ -16,9 +16,9 @@ namespace WebApp.Controllers
     {
         private MenuService menuService;
 
-        public MenuController(IConfiguration configuration)
+        public MenuController(AppConfig appConfig)
         {
-            this.menuService = new MenuService(configuration);
+            this.menuService = new MenuService(appConfig);
         }
 
         public IActionResult Index()

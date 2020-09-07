@@ -12,11 +12,11 @@ namespace WebApp.Services
 {
     public class MenuService
     {
-        private IConfiguration Configuration;
+        private AppConfig config;
 
-        public MenuService(IConfiguration configuration)
+        public MenuService(AppConfig config)
         {
-            Configuration = configuration;
+            this.config = config;
         }
 
         public void Add(Menu menu)
@@ -24,7 +24,8 @@ namespace WebApp.Services
             //トランザクション開始
             using (TransactionScope scope = new TransactionScope())
             {
-                using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString(this.Configuration)))
+                //using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString(this.Configuration)))
+                using (SqlConnection conn = new SqlConnection(config.ConnectionString))
                 {
                     String sql = @"
                             INSERT INTO Menu(MenuId,Description,Unit)
@@ -46,7 +47,8 @@ namespace WebApp.Services
 
                 foreach (var audio in menu.AudioFiles)
                 {
-                    using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString(this.Configuration)))
+                    //using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString(this.Configuration)))
+                    using (SqlConnection conn = new SqlConnection(config.ConnectionString))
                     {
                         String sql = @"
                             INSERT INTO AudioFile(MenuId,FileName,Description,S3Url)

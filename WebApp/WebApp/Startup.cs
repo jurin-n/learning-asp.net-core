@@ -4,16 +4,19 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebApp.Models;
 
 namespace WebApp
 {
     public class Startup
     {
+        private readonly IWebHostEnvironment _env;
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -21,14 +24,30 @@ namespace WebApp
         {
             services.AddControllersWithViews();
 
-            services.AddSession(options => {
+            services.AddSession(options =>
+            {
                 options.IdleTimeout = TimeSpan.FromMinutes(1);
             });
 
+            var config = new AppConfig();
+            if (_env.IsDevelopment() || _env.IsStaging())
+            {
+                System.Diagnostics.Debug.WriteLine("Dev or Staging");
+                config.ConnectionString = Configuration["DevConfig:ConnectionString"];
+                //config.ConnectionString = Configuration.GetConnectionString("dev");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Prod");
+                //TODO::AWS ‚Ì Secret Manager‚©‚ç‚Æ‚éƒƒWƒbƒNŽÀ‘•
+                config.ConnectionString = "";
+
+            }
+            services.AddSingleton(config);
+
             services.AddDistributedSqlServerCache(options =>
             {
-                options.ConnectionString =
-                    Configuration.GetConnectionString("MainDatabaseWithEncryptedPassword");
+                options.ConnectionString = config.ConnectionString;
                 options.SchemaName = "dbo";
                 options.TableName = "AppCache";
             });

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using System;
 using WebApp.Services;
 using WebApp.Models;
@@ -9,13 +8,11 @@ namespace WebApp.Controllers
 {
     public class LoginController : Controller
     {
-        private IConfiguration Configuration;
         private Authentication auth;
 
-        public LoginController(IConfiguration configuration)
+        public LoginController(AppConfig appConfig)
         {
-            Configuration = configuration;
-            auth = new Authentication(configuration);
+            auth = new Authentication(appConfig);
         }
 
         public IActionResult Index()
