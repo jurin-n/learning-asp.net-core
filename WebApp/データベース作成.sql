@@ -1,4 +1,8 @@
-﻿/* dev2データベース作成 */
+﻿/* 接続文字列 */
+Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;
+
+
+/* dev2データベース作成 */
 USE master;
 GO
 IF DB_ID (N'dev2') IS NOT NULL
@@ -12,4 +16,19 @@ GO
 SELECT name, collation_name, is_trustworthy_on, is_db_chaining_on
 FROM sys.databases
 WHERE name = N'dev2';
+GO
+
+
+
+
+
+--ユーザ作成
+USE master
+--CREATE LOGIN user01 WITH PASSWORD = '&DiJ652j*e';
+CREATE LOGIN user01 WITH PASSWORD = 'test123';
+CREATE USER user01 FOR LOGIN user01;  
+GO 
+
+--ロール付与
+EXEC master..sp_addsrvrolemember @loginame = N'user01', @rolename = N'sysadmin'
 GO

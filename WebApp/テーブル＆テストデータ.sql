@@ -26,7 +26,7 @@ INSERT INTO Users (UserID,Name,Password,CreatedOn) Values('test-user','テスト
 セッション用
 */
 dotnet tool install --global dotnet-sql-cache
-dotnet sql-cache create "Data Source=localhost;Initial Catalog=dev2;Integrated Security=True;" dbo AppCache
+dotnet sql-cache create "Data Source=localhost\SQLEXPRESS;Initial Catalog=dev2;Integrated Security=True;" dbo AppCache
 
 
 

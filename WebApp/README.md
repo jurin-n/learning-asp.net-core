@@ -10,6 +10,7 @@ docker run -d -p 8080:80 --env ASPNETCORE_ENVIRONMENT=Development --name myapp w
 #### delete container
 ```
 docker ps -aq
+docker stop 8ab2271a9020
 docker rm 8ab2271a9020
 ```
 
