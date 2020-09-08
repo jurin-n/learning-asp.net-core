@@ -1,4 +1,9 @@
 using System;
+using System.IO;
+using System.Text.Json;
+using Amazon;
+using Amazon.SecretsManager;
+using Amazon.SecretsManager.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -40,8 +45,8 @@ namespace WebApp
             {
                 System.Diagnostics.Debug.WriteLine("Prod");
                 //TODO::AWS ÇÃ Secret ManagerÇ©ÇÁÇ∆ÇÈÉçÉWÉbÉNé¿ëï
-                config.ConnectionString = "";
-
+                String secret = getConnectionStringFromAWS();
+                config = JsonSerializer.Deserialize<AppConfig>(secret);
             }
             services.AddSingleton(config);
 
@@ -81,6 +86,28 @@ namespace WebApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        public String getConnectionStringFromAWS() 
+        {
+            string secretName = "rds/sql-servver-express2";
+            string region = "ap-northeast-1";
+            string secret = "";
+
+            MemoryStream memoryStream = new MemoryStream();
+
+            IAmazonSecretsManager client = new AmazonSecretsManagerClient(RegionEndpoint.GetBySystemName(region));
+
+            GetSecretValueRequest request = new GetSecretValueRequest();
+            request.SecretId = secretName;
+            request.VersionStage = "AWSCURRENT"; // VersionStage defaults to AWSCURRENT if unspecified.
+
+            GetSecretValueResponse response = client.GetSecretValueAsync(request).Result;
+            if (response.SecretString != null)
+            {
+                secret = response.SecretString;
+            }
+            return secret;
         }
     }
 }
