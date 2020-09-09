@@ -74,7 +74,7 @@ namespace WebApp.Services
             }
         }
 
-        public void PutAudioFilesToS3(IFormFileCollection files)
+        public void PutAudioFilesToS3(String MenuID, IFormFileCollection files)
         {
             using (var client = new AmazonS3Client())
             {
@@ -89,7 +89,7 @@ namespace WebApp.Services
                         {
                             InputStream = stream,
                             Key = formFile.FileName,
-                            BucketName = "com.jurin-n.audio-files/webapp"
+                            BucketName = "com.jurin-n.audio-files/webapp/"+ MenuID
                         };
 
                         var fileTransferUtility = new TransferUtility(client);
