@@ -1,11 +1,14 @@
 ﻿@model WebApp.Models.Menu
 
 @{
-    ViewBag.Title = "メニュー";
+    ViewBag.Title = "メニュー登録";
 }
 
 <!-- Main Content -->
 <div class="container mb-auto">
+    <p class="h1">
+        @ViewBag.Title
+    </p>
     <div class="card" style="border: none;">
         <div class="card-body">
             <form enctype="multipart/form-data" asp-controller="Menu" asp-action="Edit" method="post">
@@ -78,7 +81,7 @@
             </form>
         </div>
     </div>
-</div>
+</p>
 
 <script>
     $('#inputGroupFile01').on('change', function () {
