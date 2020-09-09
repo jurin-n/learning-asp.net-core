@@ -1,0 +1,65 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewBag.Title = "実施メニュー登録";
+}
+
+<!-- Main Content -->
+<div class="container mb-auto">
+    <p class="h1">
+        @ViewBag.Title
+    </p>
+    <div class="card" style="border: none;">
+        <div class="card-body">
+            <form asp-controller="Practices" asp-action="Plan" method="post">
+                <div class="form-group">
+                    <p class="h4">実施日</p>
+                    <input type="date" class="form-control" name="Date" value="2020-09-10" />
+                </div>
+                <div class="form-group">
+                    <p class="h4">メニューID</p>
+                    <input type="text" class="form-control" name="MenuId" value="ID001" disabled />
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <p class="h4">単位</p>
+                        <input type="number" class="form-control" name="Unit" value="10" min="0" max="120" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <p class="h4">&nbsp;</p>
+                        <input type="text" class="form-control" name="MenuId" value="分" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p class="h4">音声ファイル</p>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">ファイル名</th>
+                                <th scope="col">ファイル再生</th>
+                                <th scope="col">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    xxxx.mp4
+                                </td>
+                                <td>
+                                    <audio controls>
+                                        <source src="horse.ogg" type="audio/ogg">
+                                        <source src="horse.mp3" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </td>
+                                <td>あああ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <input type="submit" value="メニュー実施登録" class="btn btn-primary btn-lg" name="confirm" />
+            </form>
+        </div>
+    </div>
+</div>

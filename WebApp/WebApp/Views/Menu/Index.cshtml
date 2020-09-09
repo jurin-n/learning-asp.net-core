@@ -1,12 +1,43 @@
 ﻿@model WebApp.Models.Menu
 
 @{
-    ViewBag.Title = "メニュー";
+    ViewBag.Title = "メニューリスト";
 }
 
 <!-- Main Content -->
 <main>
+    <style>
+        .button-col {
+            width: 150px;
+        }
+    </style>
     <div class="container mb-auto">
-        一覧画面にする予定。
+        <p class="h1">
+            @ViewBag.Title
+        </p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col" class="button-col">&nbsp;</th>
+                    <th scope="col">メニューID</th>
+                    <th scope="col">メニュー説明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="button-col">
+                        <a class="btn btn-primary" href="practices/plan?menu_id=ID001" role="button" width="50px">
+                            このメニュー実施
+                        </a>
+                    </td>
+                    <td>
+                        <a href="menu/edit?id=ID001">
+                            ID001
+                        </a>
+                    </td>
+                    <td>あああ</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </main>
