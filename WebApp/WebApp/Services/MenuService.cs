@@ -3,6 +3,8 @@ using Amazon.S3.Transfer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Transactions;
 using WebApp.Common;
@@ -14,12 +16,12 @@ namespace WebApp.Services
     {
         private AppConfig config;
 
-        public MenuService(AppConfig config)
+        internal MenuService(AppConfig config)
         {
             this.config = config;
         }
 
-        public void Add(Menu menu)
+        internal void Add(Menu menu)
         {
             //トランザクション開始
             using (TransactionScope scope = new TransactionScope())
@@ -74,7 +76,72 @@ namespace WebApp.Services
             }
         }
 
-        public void PutAudioFilesToS3(String MenuID, IFormFileCollection files)
+        internal Menu GetMenu(string menuId)
+        {
+
+            using (SqlConnection conn = new SqlConnection(config.ConnectionString))
+            {
+
+                conn.Open();
+
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = conn;
+
+                    command.Parameters.AddWithValue("@MenuId", menuId);
+                    command.CommandText = @"
+                                        SELECT
+                                        MenuId, Description, Unit
+                                        FROM Menu
+                                        WHERE MenuId= @MenuId
+                                        ";
+                    Menu menu;
+                    using (var reader = command.ExecuteReader(CommandBehavior.SingleRow))
+                    { 
+                        if (reader.Read())
+                        {
+                            menu = new Menu()
+                            {
+                                MenuId = reader.GetString(0),
+                                Description = reader.GetSqlChars(1).ToString(),
+                                Unit = reader.GetString(2)
+                            };
+                        }
+                        else
+                        {
+                            menu = new Menu();
+                        }
+                    }
+
+                    command.CommandText = @"
+                                        SELECT
+                                        MenuId, FileName, Description,S3Url
+                                        FROM AudioFile
+                                        WHERE MenuId= @MenuId
+                                        ";
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        menu.AudioFiles = new List<AudioFile>();
+
+                        while (reader.Read())
+                        {
+                            menu.AudioFiles.Add(
+                                new AudioFile()
+                                {
+                                    FileName = reader.GetString(1),
+                                    Description = new string(reader.GetSqlChars(2).Value),
+                                    S3Url = reader.GetString(3)
+                                }
+                            );
+                        }
+                    }
+                    return menu;
+                }
+            }
+        }
+
+        internal void PutAudioFilesToS3(String MenuID, IFormFileCollection files)
         {
             using (var client = new AmazonS3Client())
             {

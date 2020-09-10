@@ -9,6 +9,6 @@ namespace WebApp.Models
     {
         public String FileName { get; set; }
         public String Description { get; set; }
-        public String S3path { get; set; }
+        public String S3Url { get; set; }
     }
 }

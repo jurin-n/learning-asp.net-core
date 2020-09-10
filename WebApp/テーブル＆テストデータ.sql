@@ -56,3 +56,18 @@ CONSTRAINT [PK_AudioFile] PRIMARY KEY CLUSTERED
 [MenuId] ASC ,[FileName]
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]  
 GO
+
+
+USE dev2
+GO
+--テーブル作成
+CREATE TABLE [dbo].[Practice](
+    [PracticeId] [nvarchar](32) NOT NULL,  
+    [DateTimeOfImplementation] datetimeoffset ,
+    [MenuId] [nvarchar](32) NOT NULL, 
+    [ValueOfUnit] int
+CONSTRAINT [PK_Practice] PRIMARY KEY CLUSTERED   
+(  
+[PracticeId] ASC  
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]  
+GO

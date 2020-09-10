@@ -1,6 +1,5 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model WebApp.Models.Practice
+
 @{
     ViewBag.Title = "実施メニュー登録";
 }
@@ -15,20 +14,20 @@
             <form asp-controller="Practices" asp-action="Plan" method="post">
                 <div class="form-group">
                     <p class="h4">実施日</p>
-                    <input type="date" class="form-control" name="Date" value="2020-09-10" />
+                    <input type="date" class="form-control" name="Date" value="" placeholder="YYYY-MM-DD"/>
                 </div>
                 <div class="form-group">
                     <p class="h4">メニューID</p>
-                    <input type="text" class="form-control" name="MenuId" value="ID001" disabled />
+                    <input type="text" class="form-control" name="MenuId" value="@Model.MenuId" disabled />
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <p class="h4">単位</p>
-                        <input type="number" class="form-control" name="Unit" value="10" min="0" max="120" />
+                        <input type="number" class="form-control" name="VaLueOfUnit" value="10" min="0" max="120" />
                     </div>
                     <div class="form-group col-md-6">
                         <p class="h4">&nbsp;</p>
-                        <input type="text" class="form-control" name="MenuId" value="分" disabled />
+                        <input type="text" class="form-control" name="MenuId" value="@Model.Unit" disabled />
                     </div>
                 </div>
                 <div class="form-group">
@@ -42,19 +41,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    xxxx.mp4
-                                </td>
-                                <td>
-                                    <audio controls>
-                                        <source src="horse.ogg" type="audio/ogg">
-                                        <source src="horse.mp3" type="audio/mpeg">
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                </td>
-                                <td>あああ</td>
-                            </tr>
+                            @foreach (var audio in Model.AudioFiles)
+                            {
+                                <tr>
+                                    <td>
+                                        @audio.FileName
+                                    </td>
+                                    <td>
+                                        <audio controls>
+                                            <source src="@audio.S3Url" type="audio/mp4">
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    </td>
+                                    <td>
+                                        @audio.Description
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
