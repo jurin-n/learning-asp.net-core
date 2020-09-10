@@ -1,5 +1,52 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "練習履歴";
 }
+
+<!-- Main Content -->
+<main>
+    <div class="container mb-auto">
+        <p class="h1">
+            @ViewBag.Title
+        </p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">実施日</th>
+                    <th scope="col">メニューID</th>
+                    <th scope="col">メニュー説明</th>
+                    <th scope="col">実施量</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        2020-09-10
+                    </td>
+                    <td>
+                        ID0001
+                    </td>
+                    <td>
+                        あああ
+                    </td>
+                    <td>
+                        10分
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        2020-09-10
+                    </td>
+                    <td>
+                        ID0002
+                    </td>
+                    <td>
+                        あああ
+                    </td>
+                    <td>
+                        20回
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
