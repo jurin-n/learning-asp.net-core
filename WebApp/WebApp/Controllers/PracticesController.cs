@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
 using WebApp.Services;
@@ -28,6 +29,19 @@ namespace WebApp.Controllers
             Menu menu = menuService.GetMenu(menuId);
             
             return View(new Practice() { MenuId = menu.MenuId, Unit=menu.Unit,AudioFiles=menu.AudioFiles});
+        }
+
+        [HttpPost]
+        public IActionResult Plan(IFormCollection form) 
+        {
+            var practice = new Practice() {
+                Id = Guid.NewGuid().ToString(), 
+                DateTimeOfImplementation = DateTime.Parse(form["Date"]),
+                MenuId = form["MenuId"],
+                ValueOfUnit = int.Parse(form["ValueOfUnit"]),
+            };
+            practiceService.Add(practice);
+            return Redirect("~/menu");
         }
     }
 }

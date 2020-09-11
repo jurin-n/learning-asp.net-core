@@ -62,7 +62,7 @@ USE dev2
 GO
 --テーブル作成
 CREATE TABLE [dbo].[Practice](
-    [PracticeId] [nvarchar](32) NOT NULL,  
+    [PracticeId] [nvarchar](36) NOT NULL,  
     [DateTimeOfImplementation] datetimeoffset ,
     [MenuId] [nvarchar](32) NOT NULL, 
     [ValueOfUnit] int
