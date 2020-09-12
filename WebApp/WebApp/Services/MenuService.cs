@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Transactions;
+using System.Web;
 using WebApp.Common;
 using WebApp.Models;
 
@@ -66,7 +67,9 @@ namespace WebApp.Services
                             command.Parameters.AddWithValue("@MenuId", menu.MenuId);
                             command.Parameters.AddWithValue("@FileName", audio.FileName);
                             command.Parameters.AddWithValue("@Description", audio.Description);
-                            command.Parameters.AddWithValue("@S3Url", ""); //ここでは設定しない。バッチでやるか？
+                            //TODO:URL直書きやめる
+                            string url = "https://s3-ap-northeast-1.amazonaws.com/com.jurin-n.audio-files/webapp/" + menu.MenuId + "/" + HttpUtility.UrlEncode(audio.FileName);
+                            command.Parameters.AddWithValue("@S3Url", url);
                             command.ExecuteNonQuery();
                         }
                     }
