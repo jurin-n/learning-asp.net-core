@@ -14,11 +14,11 @@ namespace WebApp.Services
 {
     public class MenuService
     {
-        private AppConfig config;
+        private AppConfig appConfig;
 
-        internal MenuService(AppConfig config)
+        internal MenuService(AppConfig appConfig)
         {
-            this.config = config;
+            this.appConfig = appConfig;
         }
 
         internal void Add(Menu menu)
@@ -27,7 +27,7 @@ namespace WebApp.Services
             using (TransactionScope scope = new TransactionScope())
             {
                 //using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString(this.Configuration)))
-                using (SqlConnection conn = new SqlConnection(config.ConnectionString))
+                using (SqlConnection conn = new SqlConnection(appConfig.ConnectionString))
                 {
                     String sql = @"
                             INSERT INTO Menu(MenuId,Description,Unit)
@@ -50,7 +50,7 @@ namespace WebApp.Services
                 foreach (var audio in menu.AudioFiles)
                 {
                     //using (SqlConnection conn = new SqlConnection(DbHelper.getConnectionString(this.Configuration)))
-                    using (SqlConnection conn = new SqlConnection(config.ConnectionString))
+                    using (SqlConnection conn = new SqlConnection(appConfig.ConnectionString))
                     {
                         String sql = @"
                             INSERT INTO AudioFile(MenuId,FileName,Description,S3Url)
@@ -76,10 +76,47 @@ namespace WebApp.Services
             }
         }
 
+        internal IList<Menu> GetMenus()
+        {
+            using (SqlConnection conn = new SqlConnection(appConfig.ConnectionString))
+            {
+
+                conn.Open();
+
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = conn;
+                    command.CommandText = @"
+                                        SELECT
+                                           MenuId
+                                          ,Description
+                                        FROM Menu
+                                        ORDER BY MenuId
+                                        ";
+
+                    var menus = new List<Menu>();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            menus.Add(
+                                new Menu()
+                                {
+                                    MenuId=reader.GetString(0),
+                                    Description = new string(reader.GetSqlChars(1).Value)
+                                }
+                            );
+                        }
+                    }
+                    return menus;
+                }
+            }
+        }
+
         internal Menu GetMenu(string menuId)
         {
 
-            using (SqlConnection conn = new SqlConnection(config.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(appConfig.ConnectionString))
             {
 
                 conn.Open();
@@ -103,7 +140,7 @@ namespace WebApp.Services
                             menu = new Menu()
                             {
                                 MenuId = reader.GetString(0),
-                                Description = reader.GetSqlChars(1).ToString(),
+                                Description = new string(reader.GetSqlChars(1).Value),
                                 Unit = reader.GetString(2)
                             };
                         }

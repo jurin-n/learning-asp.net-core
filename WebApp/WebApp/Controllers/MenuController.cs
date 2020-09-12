@@ -1,12 +1,6 @@
-﻿using Amazon;
-using Amazon.S3;
-using Amazon.S3.Model;
-using Amazon.S3.Transfer;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System.IO;
 using WebApp.Models;
 using WebApp.Services;
 
@@ -21,15 +15,22 @@ namespace WebApp.Controllers
             this.menuService = new MenuService(appConfig);
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(string id)
         {
-            return View();
+            if(string.IsNullOrEmpty(id))
+            { 
+                IList<Menu> menus = menuService.GetMenus();
+                return View(menus);
+            }
+            Menu menu = menuService.GetMenu(id);
+            return View("Edit",menu);
         }
 
         [HttpGet]
         public IActionResult Edit()
         {
-            return View(new Menu() { MenuId = "", Description = "" });
+            return View(new Menu() { MenuId = "", Description = "" ,AudioFiles = new List<AudioFile> { new AudioFile(), new AudioFile(), new AudioFile() } });
         }
 
         [HttpPost]

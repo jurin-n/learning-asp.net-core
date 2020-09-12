@@ -1,4 +1,4 @@
-﻿@model WebApp.Models.Menu
+﻿@model IList<WebApp.Models.Menu>
 
 @{
     ViewBag.Title = "メニューリスト";
@@ -24,19 +24,24 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="button-col">
-                        <a class="btn btn-primary" href="practices/plan?menuId=ID002" role="button" width="50px">
-                            このメニュー実施
-                        </a>
-                    </td>
-                    <td>
-                        <a href="menu/edit?id=ID002">
-                            ID002
-                        </a>
-                    </td>
-                    <td>あああ</td>
-                </tr>
+                @foreach (var menu in Model)
+                {
+                    <tr>
+                        <td class="button-col">
+                            <a class="btn btn-primary" href="practices/plan?menuId=@menu.MenuId" role="button" width="50px">
+                                このメニュー実施
+                            </a>
+                        </td>
+                        <td>
+                            <a href="menu?id=@menu.MenuId">
+                                @menu.MenuId
+                            </a>
+                        </td>
+                        <td>
+                            @menu.Description
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

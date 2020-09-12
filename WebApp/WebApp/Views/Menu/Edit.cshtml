@@ -22,9 +22,7 @@
                 </div>
                 <div class="form-group">
                     <p class="h4">単位</p>
-                    <select class="form-control" name="MenuUnit">
-                        <option>回</option>
-                        <option>分</option>
+                    <select asp-for="Unit" asp-items="Model.Units" class="form-control" name="MenuUnit">
                     </select>
                 </div>
                 <div class="form-group">
@@ -41,43 +39,26 @@
                             </div>
                         </div>
                         <div class="item-columns-body mb-3">
-                            <div class="row my-1">
-                                <div class="col-8 col-lg-6">
-                                    <div class="custom-file">
-                                        <input name="formFile" type="file" class="custom-file-input" id="inputGroupFile01">
-                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                            @for (var i = 0; i < Model.AudioFiles.Count; i++)
+                            {
+                                <div class="row my-1">
+                                    <div class="col-8 col-lg-6">
+                                        <div class="custom-file">
+                                            <input name="formFile" type="file" class="custom-file-input" value="@(Model.AudioFiles[i].FileName)">
+                                            <label class="custom-file-label" for="inputGroupFile@($"{(i+1):00}")">
+                                            @(String.IsNullOrEmpty(Model.AudioFiles[i].FileName) ? "Choose file": Model.AudioFiles[i].FileName)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-lg-6">
+                                        <textarea name="AudioFileDescription@($"{(i+1):00}")" rows="3" class="form-control form-control-sm">@(Model.AudioFiles[i].Description)</textarea>
                                     </div>
                                 </div>
-                                <div class="col-4 col-lg-6">
-                                    <textarea name="AudioFileDescription01" rows="3" class="form-control form-control-sm"></textarea>
-                                </div>
-                            </div>
-                            <div class="row my-1">
-                                <div class="col-8 col-lg-6">
-                                    <div class="custom-file">
-                                        <input name="formFile" type="file" class="custom-file-input" id="inputGroupFile02">
-                                        <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-                                    </div>
-                                </div>
-                                <div class="col-4 col-lg-6">
-                                    <textarea name="AudioFileDescription02" rows="3" class="form-control form-control-sm"></textarea>
-                                </div>
-                            </div>
-                            <div class="row my-1">
-                                <div class="col-8 col-lg-6">
-                                    <div class="custom-file">
-                                        <input name="formFile" type="file" class="custom-file-input" id="inputGroupFile03">
-                                        <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
-                                    </div>
-                                </div>
-                                <div class="col-4 col-lg-6">
-                                    <textarea name="AudioFileDescription03" rows="3" class="form-control form-control-sm"></textarea>
-                                </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>
-                <input type="submit" value="メニュー登録" class="btn btn-primary btn-lg" name="confirm" />
+                <input type="submit" value="メニュー登録" class="btn btn-primary btn-lg" name="confirm" @(String.IsNullOrEmpty(Model.MenuId)?"":"disabled") />
             </form>
         </div>
     </div>
