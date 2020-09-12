@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Transactions;
 using WebApp.Models;
@@ -38,6 +40,53 @@ namespace WebApp.Services
                     }
                 }
                 scope.Complete();
+            }
+        }
+
+        internal IList<Practice> GetPractices()
+        {
+            using (SqlConnection conn = new SqlConnection(appConfig.ConnectionString))
+            {
+
+                conn.Open();
+
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = conn;
+                    command.CommandText = @"
+                                        SELECT
+                                             p.PracticeId
+                                            ,p.DateTimeOfImplementation
+                                            ,p.MenuId
+                                            ,p.ValueOfUnit
+                                            ,m.Unit
+                                            ,m.Description
+                                        FROM Practice p
+                                        INNER JOIN Menu m
+                                        ON p.MenuId = m.MenuId
+                                        ORDER BY p.DateTimeOfImplementation DESC
+                                        ";
+
+                    var practices = new List<Practice>();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            practices.Add(
+                                new Practice()
+                                {
+                                    Id = reader.GetString(0),
+                                    DateTimeOfImplementation = reader.GetDateTimeOffset(1),
+                                    MenuId = reader.GetString(2),
+                                    ValueOfUnit = reader.GetInt32(3),
+                                    Unit = reader.GetString(4),
+                                    Description = new string(reader.GetSqlChars(5).Value)
+                                }
+                            );
+                        }
+                    }
+                    return practices;
+                }
             }
         }
     }

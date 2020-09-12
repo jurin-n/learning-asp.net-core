@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IList<WebApp.Models.Practice>
+
+@{
     ViewBag.Title = "練習履歴";
 }
 
@@ -18,34 +20,23 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        2020-09-10
-                    </td>
-                    <td>
-                        ID0001
-                    </td>
-                    <td>
-                        あああ
-                    </td>
-                    <td>
-                        10分
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        2020-09-10
-                    </td>
-                    <td>
-                        ID0002
-                    </td>
-                    <td>
-                        あああ
-                    </td>
-                    <td>
-                        20回
-                    </td>
-                </tr>
+                @foreach (var practice in Model)
+                {
+                    <tr>
+                        <td>
+                            @practice.DateTimeOfImplementation.ToString("yyyy-MM-dd")
+                        </td>
+                        <td>
+                            @practice.MenuId
+                        </td>
+                        <td>
+                            @practice.Description
+                        </td>
+                        <td>
+                            @practice.ValueOfUnit @practice.Unit
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

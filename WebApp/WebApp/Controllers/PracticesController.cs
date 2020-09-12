@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
@@ -20,7 +21,9 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            IList<Practice> practices = practiceService.GetPractices();
+
+            return View(practices);
         }
 
         [HttpGet]

@@ -11,6 +11,7 @@ namespace WebApp.Models
         public String MenuId { get; set; }
         public int ValueOfUnit { get; set; }
         public String Unit { get; set; }
+        public String Description { get; set; }
         public IList<AudioFile> AudioFiles { get; set; }
     }
 }
