@@ -193,6 +193,7 @@ namespace WebApp.Services
                         {
                             InputStream = stream,
                             Key = formFile.FileName,
+                            CannedACL = S3CannedACL.PublicRead,
                             BucketName = "com.jurin-n.audio-files/webapp/"+ MenuID
                         };
 

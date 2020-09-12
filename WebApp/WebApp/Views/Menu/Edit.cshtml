@@ -44,7 +44,7 @@
                                 <div class="row my-1">
                                     <div class="col-8 col-lg-6">
                                         <div class="custom-file">
-                                            <input name="formFile" type="file" class="custom-file-input" value="@(Model.AudioFiles[i].FileName)">
+                                            <input name="formFile" type="file" class="custom-file-input" value="@(Model.AudioFiles[i].FileName)" id="inputGroupFile@($"{(i+1):00}")">
                                             <label class="custom-file-label" for="inputGroupFile@($"{(i+1):00}")">
                                             @(String.IsNullOrEmpty(Model.AudioFiles[i].FileName) ? "Choose file": Model.AudioFiles[i].FileName)
                                             </label>

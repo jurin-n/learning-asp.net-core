@@ -50,7 +50,7 @@ namespace WebApp.Controllers
             //S3にAudioファイルアップロード
             menuService.PutAudioFilesToS3(form["MenuId"], form.Files);
 
-            return View(new Menu() { MenuId = "", Description = "" });
+            return View(new Menu() { MenuId = "", Description = "", AudioFiles = new List<AudioFile> { new AudioFile(), new AudioFile(), new AudioFile() } });
         }
     }
 }
