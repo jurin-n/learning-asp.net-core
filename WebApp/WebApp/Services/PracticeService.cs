@@ -89,5 +89,56 @@ namespace WebApp.Services
                 }
             }
         }
+
+
+        internal IList<MenuLog> GetMenuLogs(String MenuId, String Start, String End)
+        {
+            using (SqlConnection conn = new SqlConnection(appConfig.ConnectionString))
+            {
+
+                conn.Open();
+
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = conn;
+                    command.CommandText = @"
+                                        SELECT 
+                                          m.MenuId
+                                         ,p.DateTimeOfImplementation
+                                         ,p.ValueOfUnit
+                                         ,m.Unit
+                                        FROM Menu m
+                                        INNER JOIN Practice p
+                                        ON
+                                          m.MenuId = p.MenuId
+                                        WHERE m.MenuId=@MenuId
+                                          AND FORMAT(p.DateTimeOfImplementation, 'yyyy-MM-dd') >= @Start
+                                          AND FORMAT(p.DateTimeOfImplementation, 'yyyy-MM-dd') <= @End
+                                        ORDER BY p.DateTimeOfImplementation
+                                        ";
+                    command.Parameters.AddWithValue("@MenuId", MenuId);
+                    command.Parameters.AddWithValue("@Start", Start);
+                    command.Parameters.AddWithValue("@End", End);
+
+                    var menuLogs = new List<MenuLog>();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            menuLogs.Add(
+                                new MenuLog()
+                                {
+                                    MenuId = reader.GetString(0),
+                                    DateTimeOfImplementation = reader.GetDateTimeOffset(1),
+                                    ValueOfUnit = reader.GetInt32(2),
+                                    Unit = reader.GetString(3)
+                                }
+                            );
+                        }
+                    }
+                    return menuLogs;
+                }
+            }
+        }
     }
 }
