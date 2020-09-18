@@ -1,15 +1,14 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Transfer;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Transactions;
 using System.Web;
-using WebApp.Common;
 using WebApp.Models;
+using WebApp.Models.Menu;
 
 namespace WebApp.Services
 {

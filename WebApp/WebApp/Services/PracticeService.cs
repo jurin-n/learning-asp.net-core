@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Transactions;
 using WebApp.Models;
+using WebApp.Models.Menu;
 
 namespace WebApp.Services
 {
@@ -91,7 +92,7 @@ namespace WebApp.Services
         }
 
 
-        internal IList<MenuLog> GetMenuLogs(String MenuId, String Start, String End)
+        internal MenuLog GetMenuLog(String Id, String Start, String End)
         {
             using (SqlConnection conn = new SqlConnection(appConfig.ConnectionString))
             {
@@ -116,27 +117,33 @@ namespace WebApp.Services
                                           AND FORMAT(p.DateTimeOfImplementation, 'yyyy-MM-dd') <= @End
                                         ORDER BY p.DateTimeOfImplementation
                                         ";
-                    command.Parameters.AddWithValue("@MenuId", MenuId);
+                    command.Parameters.AddWithValue("@MenuId", Id);
                     command.Parameters.AddWithValue("@Start", Start);
                     command.Parameters.AddWithValue("@End", End);
 
-                    var menuLogs = new List<MenuLog>();
+                    var menuLog = new MenuLog();
+                    var logs = new List<WebApp.Models.Menu.Log>();
                     using (var reader = command.ExecuteReader())
                     {
+                        string MenuId = "";
+                        string Unit = "";
                         while (reader.Read())
                         {
-                            menuLogs.Add(
-                                new MenuLog()
+                            MenuId = reader.GetString(0);
+                            Unit = reader.GetString(3);
+                            logs.Add(
+                                new Log()
                                 {
-                                    MenuId = reader.GetString(0),
                                     DateTimeOfImplementation = reader.GetDateTimeOffset(1),
-                                    ValueOfUnit = reader.GetInt32(2),
-                                    Unit = reader.GetString(3)
+                                    ValueOfUnit = reader.GetInt32(2)
                                 }
                             );
                         }
+                        menuLog.MenuId = MenuId;
+                        menuLog.Unit = Unit;
+                        menuLog.Logs = logs;
                     }
-                    return menuLogs;
+                    return menuLog;
                 }
             }
         }

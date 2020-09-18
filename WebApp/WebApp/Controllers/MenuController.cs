@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using WebApp.Models;
+using WebApp.Models.Menu;
 using WebApp.Services;
 
 namespace WebApp.Controllers
