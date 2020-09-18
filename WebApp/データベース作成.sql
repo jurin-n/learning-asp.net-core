@@ -19,7 +19,11 @@ WHERE name = N'dev2';
 GO
 
 
-
+/*
+Windows認証でSQL Serverにログインして行う作業
+*/
+--SQL Server DeveloperのログインモードをSQL Server認証に変更
+https://docs.microsoft.com/ja-jp/sql/database-engine/configure-windows/change-server-authentication-mode?view=sql-server-ver15
 
 
 --ユーザ作成
